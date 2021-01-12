@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import 'antd/dist/antd.css';
+import CustomTabs from "./components/Tabs";
+import { IFRAME_WINDOW } from "./utils";
+
 
 const App = () => {
-    const [config, setConfig] = useState({})
+    const [config, setConfig] = useState<IConfig>({
+        cable_configuration: [''],
+        attributes: [''],
+        placeholder: '',
+        placeholder_text: '',
+        cart_button: '',
+        image: '',
+        select_attribute: () => {}
+    })
 
     const handleMessageEvent = (e: MessageEvent) => setConfig(e.data)
 
     useEffect(() => {
-        window.top[0].addEventListener("message", handleMessageEvent)
-        return window.top[0].addEventListener("message", handleMessageEvent)
+        if (IFRAME_WINDOW) {
+            IFRAME_WINDOW.addEventListener("message", handleMessageEvent)
+            return IFRAME_WINDOW.addEventListener("message", handleMessageEvent)
+        }
     }, [])
 
-    useEffect(() => {
-        console.log(config)
-    }, [config])
+    return <CustomTabs config={config} />
 
-    return (
-        <div className="App">
-            <h1>salut</h1>
-        </div>
-    );
 }
 
 export default App;

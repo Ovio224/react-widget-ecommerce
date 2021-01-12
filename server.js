@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const cors = require('cors');
 
 const HOST = "http://localhost:3355"
 
@@ -13,9 +12,6 @@ app.use('*', function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
   next();
 });
-
-//enable pre-flight
-app.options('*', cors());
 
 app.get('/demo.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'scripts', 'demo.js'));
